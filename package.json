@@ -4,7 +4,8 @@
   "description": "Servidor para ticketera",
   "main": "index.js",
   "scripts": {
-    "dev": "nodemon ."
+    "dev": "nodemon .",
+    "start": "node index.js"
   },
   "author": "Alberto Giffard",
   "license": "ISC",
