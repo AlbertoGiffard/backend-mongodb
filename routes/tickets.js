@@ -28,5 +28,10 @@ router.get('/crearIndiceTexto', ticketController.crearIndiceTexto);
 router.get('/contienePalabraHd', ticketController.contienePalabraHd);
 router.get('/clientesConCanalSpace', ticketController.clientesConCanalSpace);
 router.get('/pendientesConVacaciones', ticketController.pendientesConVacaciones);
+router.get('/queHay', ticketController.queHay);
+router.get('/tienenAtributoCampoVip', ticketController.tienenAtributoCampoVip);
+router.get('/tipoCanalesAgregados', ticketController.tipoCanalesAgregados);
+router.get('/agregadosCanalesEspecificos', ticketController.agregadosCanalesEspecificos);
+router.get('/paguenMenosOMasQueEstosValores', ticketController.paguenMenosOMasQueEstosValores);
 
 module.exports = router;

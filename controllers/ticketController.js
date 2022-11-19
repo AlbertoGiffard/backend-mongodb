@@ -392,6 +392,77 @@ exports.pendientesConVacaciones = async (req, res) => {
     }
 }
 
+////////////////////////////////////////
+
+//encontrar si en las coordenadas dadas hay una oficina o un servicio tecnico
+exports.queHay = async (req, res) => {
+    try {
+        await tickets.createIndex({"area.posicion_gps": "2dsphere" });
+        const tickets = await ticket.findOne({"area.posicion_gps":{ 
+            $geoIntersects:{ 
+              $geometry:{ 
+                type: "Point",
+                coordinates:[
+                  -58.36241494736605,
+                  -34.66362091804544
+                ]
+              }
+            }
+          }},{"area.tipo": 1});
+        res.json(tickets);
+    } catch (error) {
+        console.log(error);
+        res.status(500).send('Hubo un error');
+    }
+}
+
+//buscar los clientes que tengan el atributo campo_vip
+exports.tienenAtributoCampoVip = async (req, res) => {
+    try {
+        const tickets = await ticket.find({campo_vip: {$exists: true}}).count();
+        res.json(tickets);
+    } catch (error) {
+        console.log(error);
+        res.status(500).send('Hubo un error');
+    }
+}
+
+//obtener el tipo de valores del array de canales agregados
+exports.tipoCanalesAgregados = async (req, res) => {
+    try {
+        const tickets = await ticket.aggregate([{
+            $project: {
+               tipo : { $type: "$derivaciones.canales_agregados" }
+            }
+        }])
+        res.json(tickets);
+    } catch (error) {
+        console.log(error);
+        res.status(500).send('Hubo un error');
+    }
+}
+
+//encontrar los clientes que solo se le hayan agregado los canales de Cartoon Network y Space
+exports.agregadosCanalesEspecificos = async (req, res) => {
+    try {
+        const tickets = await ticket.find({"derivaciones.canales_agregados": {$all: [["Cartoon Network", "Space"]]}});
+        res.json(tickets);
+    } catch (error) {
+        console.log(error);
+        res.status(500).send('Hubo un error');
+    }
+}
+
+//clientes que paguen mas o igual a 3000 y menos que 6000
+exports.paguenMenosOMasQueEstosValores = async (req, res) => {
+    try {
+        const tickets = await ticket.find({"plan.costo": {$elemMatch: {$gte: 3000, $lt: 6000}}});
+        res.json(tickets);
+    } catch (error) {
+        console.log(error);
+        res.status(500).send('Hubo un error');
+    }
+}
 
 
 
