@@ -9,7 +9,7 @@ const connectDb = async () => {
         });
         console.log("Base de datos conectada");
     } catch (error) {
-        console.log(error);
+        console.log("error " + error);
         process.exit(1); //detenemos la app
     }
 }
